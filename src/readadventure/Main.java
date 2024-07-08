@@ -53,13 +53,13 @@ public class Main extends javax.swing.JFrame {
         Animacion.setBackground(new java.awt.Color(255, 255, 255));
         Animacion.setPreferredSize(new java.awt.Dimension(310, 500));
 
-        Inicio.setBackground(new java.awt.Color(95, 43, 93));
+        Inicio.setBackground(new java.awt.Color(255, 0, 0));
         Inicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        BtnLogin.setBackground(new java.awt.Color(0, 196, 166));
+        BtnLogin.setBackground(new java.awt.Color(0, 0, 255));
         BtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         BtnLogin.setText("Iniciar Sesion");
-        BtnLogin.setColor(new java.awt.Color(0, 196, 166));
+        BtnLogin.setColor(new java.awt.Color(0, 0, 255));
         BtnLogin.setRadius(25);
         BtnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -73,10 +73,10 @@ public class Main extends javax.swing.JFrame {
         });
         Inicio.add(BtnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 58));
 
-        BtnRegister.setBackground(new java.awt.Color(254, 43, 138));
+        BtnRegister.setBackground(new java.awt.Color(0, 0, 0));
         BtnRegister.setForeground(new java.awt.Color(255, 255, 255));
         BtnRegister.setText("Crear Cuenta");
-        BtnRegister.setColor(new java.awt.Color(254, 43, 138));
+        BtnRegister.setColor(new java.awt.Color(0, 0, 0));
         BtnRegister.setRadius(25);
         BtnRegister.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

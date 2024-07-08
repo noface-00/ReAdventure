@@ -9,7 +9,9 @@ import java.awt.Cursor;
  *
  * @author PC
  */
+
 public class Register extends javax.swing.JPanel {
+    
 
     /**
      * Creates new form Register
@@ -38,6 +40,17 @@ public class Register extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         TxTNombre = new javax.swing.JTextField();
         BTNIngreso = new readadventure.Boton();
+        jLabel4 = new javax.swing.JLabel();
+        TxTNombre1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(95, 43, 93));
         setMaximumSize(new java.awt.Dimension(300, 500));
@@ -47,7 +60,6 @@ public class Register extends javax.swing.JPanel {
         Reg_init.setBackground(new java.awt.Color(95, 43, 93));
         Reg_init.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        BTNBack.setBackground(new java.awt.Color(245, 196, 45));
         BTNBack.setForeground(new java.awt.Color(255, 255, 255));
         BTNBack.setText("<-");
         BTNBack.setBorderColor(new java.awt.Color(51, 51, 0));
@@ -62,33 +74,84 @@ public class Register extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Contraseña");
-        Reg_init.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, -1, -1));
+        Reg_init.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cedula");
-        Reg_init.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, -1, -1));
+        Reg_init.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Nombre");
-        Reg_init.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
+        jLabel3.setText("Apellido");
+        Reg_init.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
 
         jTextField1.setText("jTextField1");
-        Reg_init.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 130, -1));
+        Reg_init.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 130, -1));
 
         jTextField2.setText("jTextField2");
-        Reg_init.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, 130, -1));
+        Reg_init.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 360, 130, -1));
 
         TxTNombre.setText("jTextField2");
-        Reg_init.add(TxTNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 130, -1));
+        Reg_init.add(TxTNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 130, -1));
 
         BTNIngreso.setForeground(new java.awt.Color(255, 255, 255));
         BTNIngreso.setText("Registrarse");
         BTNIngreso.setBorderColor(new java.awt.Color(0, 0, 0));
         BTNIngreso.setColor(new java.awt.Color(204, 0, 0));
         BTNIngreso.setRadius(10);
-        Reg_init.add(BTNIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, -1, -1));
+        BTNIngreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNIngresoActionPerformed(evt);
+            }
+        });
+        Reg_init.add(BTNIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Nombre");
+        Reg_init.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
+
+        TxTNombre1.setText("jTextField2");
+        Reg_init.add(TxTNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 130, -1));
+
+        jLabel5.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Curso");
+        Reg_init.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, -1, -1));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Reg_init.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, 130, -1));
+
+        jLabel6.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Edad");
+        Reg_init.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Reg_init.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 130, -1));
+
+        jLabel7.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Sexo");
+        Reg_init.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, -1, -1));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Reg_init.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 130, -1));
+
+        jLabel8.setText("jLabel8");
+        Reg_init.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+
+        jLabel9.setText("jLabel9");
+        Reg_init.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        Reg_init.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
 
         add(Reg_init, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 500));
     }// </editor-fold>//GEN-END:initComponents
@@ -100,15 +163,36 @@ public class Register extends javax.swing.JPanel {
         
     }//GEN-LAST:event_BTNBackMouseClicked
 
+    private void BTNIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNIngresoActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_BTNIngresoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private readadventure.Boton BTNBack;
     private readadventure.Boton BTNIngreso;
     private javax.swing.JPanel Reg_init;
     private javax.swing.JTextField TxTNombre;
+    private javax.swing.JTextField TxTNombre1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
