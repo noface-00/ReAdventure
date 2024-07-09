@@ -39,7 +39,8 @@ public class UI extends javax.swing.JFrame {
         layout = new MigLayout("fill, insets 0, debug");
         cover = new Panel_cover();
         loginANDRegister = new Login_Register();
-        TimingTarget target = new TimingTargetAdapter() {
+        TimingTarget target;
+        target = new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction){
                 double fractionCover;
@@ -54,8 +55,11 @@ public class UI extends javax.swing.JFrame {
                     fractionCover = 1f - fraction;
                     fractionLogin = fraction;
                 }else{
-                   fractionCover = fraction; 
-                   fractionLogin = 1f - fraction;
+                    fractionCover = fraction;
+                    fractionLogin = 1f - fraction;
+                }
+                if(fraction >= 0.5f){
+                    loginANDRegister.showLogin(isLogin);
                 }
                 fractionCover = Double.valueOf(df.format(fractionCover));
                 fractionLogin = Double.valueOf(df.format(fractionLogin));
