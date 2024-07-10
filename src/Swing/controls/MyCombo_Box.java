@@ -36,7 +36,7 @@ public class MyCombo_Box<E> extends JComboBox<E> {
                 // Crea un botón de flecha personalizado con colores específicos
                 javax.swing.JButton button = new javax.swing.plaf.basic.BasicArrowButton(
                         javax.swing.plaf.basic.BasicArrowButton.SOUTH,
-                        new Color(75, 175, 152), Color.YELLOW, Color.BLACK, Color.YELLOW);
+                        new Color(0, 0, 0), Color.WHITE, Color.WHITE, Color.WHITE);
                 button.setName("ComboBox.arrowButton");
                 return button;
             }
@@ -98,9 +98,9 @@ public class MyCombo_Box<E> extends JComboBox<E> {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (isSelected) {
                 label.setBackground(selectionBackground); // Establece el color de fondo de la celda seleccionada
-                label.setForeground(new Color(255, 0, 0, 128)); // Establece el color de texto de la celda seleccionada
+                label.setForeground(new Color(0, 0, 0)); // Establece el color de texto de la celda seleccionada
             } else {
-                label.setBackground(new Color(75, 175, 152)); // Establece el color de fondo predeterminado
+                label.setBackground(new Color(250, 250, 250)); // Establece el color de fondo predeterminado
                 label.setForeground(Color.BLACK); // Establece el color de texto predeterminado
             }
             return label;

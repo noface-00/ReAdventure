@@ -23,7 +23,7 @@ public class MyTextField extends JTextField {
         // Configuración inicial del campo de texto
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Borde vacío con márgenes de 10 en cada lado
         setBackground(new Color(0, 0, 0, 0)); // Fondo transparente
-        setForeground(Color.decode("#7A8C8D")); // Color de texto
+        setForeground(Color.BLACK); // Color de texto
         setFont(new java.awt.Font("Roboto Black", 0, 13)); // Fuente y tamaño de la fuente
         setSelectionColor(new Color(75, 175, 152)); // Color de selección
     }

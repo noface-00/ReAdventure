@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import javax.swing.JFrame;
+import javax.swing.JRootPane;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+
 
 /**
  *
@@ -30,6 +32,9 @@ public class UI extends javax.swing.JFrame {
     public UI() {
         initComponents();
         init();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        setResizable(false); // Deshabilita el redimensionamiento
+      
     }
     
     private void init(){

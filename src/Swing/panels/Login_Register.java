@@ -19,6 +19,9 @@ import swing.controls.MyCombo_Box;
 import swing.controls.MyPasswordField;
 import swing.controls.MyTextField;
 import ReAdventure.Conexion;
+import javax.swing.text.AbstractDocument;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -72,6 +75,20 @@ public class Login_Register extends javax.swing.JPanel {
         Cedula.setHint("Cedula");
         Cedula.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Cedula.png")));
         Register.add(Cedula, "w 60%");
+        Cedula.addKeyListener(new KeyListener() {
+        @Override
+            public void keyTyped(KeyEvent e) {
+             CedulaKeyTyped(e);
+            }
+        @Override
+            public void keyPressed(KeyEvent e) {
+            // Método requerido por la interfaz KeyListener
+            }
+        @Override
+           public void keyReleased(KeyEvent e) {
+        // Método requerido por la interfaz KeyListener
+    }
+});
         
         Contrasena = new MyTextField(); 
         Contrasena.setHint("Contraseña");
@@ -88,8 +105,8 @@ public class Login_Register extends javax.swing.JPanel {
         Curso.addItem("3ro");
         Curso.addItem("4to");
         Curso.setHint("Cursos");
-        Curso.setBackground(new Color(7, 164, 121));
-        Curso.setSelectionBackground(new Color(250, 250, 250));
+        Curso.setBackground(new Color(236, 87, 0));
+        Curso.setSelectionBackground(new Color(236, 87, 0));
         Register.add(Curso, "w 60%, h 40");
 
         Sexo = new MyCombo_Box();
@@ -97,8 +114,8 @@ public class Login_Register extends javax.swing.JPanel {
         Sexo.addItem("Masculino");
         Sexo.addItem("Femenino");
         Sexo.setHint("Género");
-        Sexo.setBackground(new Color(7, 164, 121));
-        Sexo.setSelectionBackground(new Color(250, 250, 250));
+        Sexo.setBackground(new Color(44, 131, 192));
+        Sexo.setSelectionBackground(new Color(44, 131, 192));
         Register.add(Sexo, "w 60%, h 40");
 
         Button B_register = new Button();
@@ -110,18 +127,33 @@ public class Login_Register extends javax.swing.JPanel {
 
 
     }
+    
+    private void CedulaKeyTyped(java.awt.event.KeyEvent evt){
+        int key=evt.getKeyChar();
+        boolean numero = key >=48 && key <=57;
+    
+        if (!numero){
+        
+            evt.consume();
+        
+        }
+    }
     private void B_registerActionPerformed(java.awt.event.ActionEvent evt){
+       
+        
+        
+        
+        
+        
        try {
+           String nombre = Nombre.getText();
+        String apellido = Apellido.getText();
+        String cedula = Cedula.getText();
+        String edad = Edad.getText();
+        String curso = Curso.getSelectedItem().toString();
+        String genero = Sexo.getSelectedItem().toString();
+        String contrasenna = Contrasena.getText(); 
             Connection conn = con.getConexion();
-
-            String nombre = Nombre.getText();
-            String apellido = Apellido.getText();
-            String cedula = Cedula.getText();
-            String edad = Edad.getText();
-            String curso = Curso.getSelectedItem().toString();
-            String genero = Sexo.getSelectedItem().toString();
-            String contrasenna = Contrasena.getText(); 
-
             // Preparar la consulta SQL para insertar el usuario
              String sql = "INSERT INTO users(nombre, apellido, edad, sexo, curso, cedula, contrasenna) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pps = conn.prepareStatement(sql);
