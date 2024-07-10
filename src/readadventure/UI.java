@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -162,7 +163,10 @@ public class UI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UI().setVisible(true);
+                UI ui = new UI();
+                ui.setExtendedState(JFrame.MAXIMIZED_BOTH); // Inicia la ventana maximizada
+                //ui.setUndecorated(true); // Oculta los bordes de la ventana
+                ui.setVisible(true);
             }
         });
     }

@@ -1,6 +1,7 @@
 package swing.panels;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,7 +29,7 @@ public class Panel_cover extends javax.swing.JPanel {
     public Panel_cover() {
         initComponents();
         init();
-        layout = new MigLayout("wrap, fill", "[center]","push[]25[]10[]25[]push");
+        layout = new MigLayout("wrap, fill", "[center]","push[]25[200]10[]25[]push");
         setLayout(layout);
         setOpaque(false);
         
@@ -69,13 +70,14 @@ public class Panel_cover extends javax.swing.JPanel {
         button.setBackground(new Color(255,255,255));
         button.setForeground(new Color(255,255,255));
         button.setText("Registrate");
+        button.setFont(new Font("Roboto", 1, 35));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                event.actionPerformed(e);
             }
         });
-        add(button);
+        add(button, "width 200px!, height 40px!");
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -85,11 +87,11 @@ public class Panel_cover extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 802, Short.MAX_VALUE)
+            .addGap(0, 322, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 940, Short.MAX_VALUE)
+            .addGap(0, 246, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

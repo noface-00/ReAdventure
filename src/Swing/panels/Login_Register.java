@@ -32,6 +32,7 @@ public class Login_Register extends javax.swing.JPanel {
     private MyTextField Edad;
     private MyCombo_Box Curso;
     private MyCombo_Box Sexo;
+    private MyTextField Contrasena;
     
     
     public Login_Register() {
@@ -64,6 +65,10 @@ public class Login_Register extends javax.swing.JPanel {
         Cedula = new MyTextField();
         Cedula.setHint("Cedula");
         Register.add(Cedula, "w 60%");
+        
+        Contrasena = new MyTextField();
+        Contrasena.setHint("Contraseña");
+        Register.add(Contrasena, "w 60%");
 
         Edad = new MyTextField();
         Edad.setHint("Edad");
@@ -146,8 +151,14 @@ public class Login_Register extends javax.swing.JPanel {
         Titulo.setFont(new Font("Roboto Black", 1, 30));
         Titulo.setForeground(new Color(7, 164, 121));
         Login.add(Titulo);
-
         
+        MyTextField Usuario = new MyTextField();
+        Usuario.setHint("Cedula");
+        Login.add(Usuario, "w 60%");
+        
+        MyPasswordField Clave = new MyPasswordField();
+        Clave.setHint("Contraseña");
+        Login.add(Clave, "w 60%");        
 
         JButton B_forget = new JButton("¿Olvidó su contraseña?");
         B_forget.setBackground(new Color(100, 100, 100));
