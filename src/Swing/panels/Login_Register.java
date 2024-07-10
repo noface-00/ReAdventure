@@ -3,6 +3,7 @@ package Swing.panels;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.*;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -26,6 +27,7 @@ import readadventure.Conexion;
 public class Login_Register extends javax.swing.JPanel {
     private Conexion con;
     private Button B_register;
+    private Button B_login;
     private MyTextField Nombre;
     private MyTextField Apellido;
     private MyTextField Cedula;
@@ -33,6 +35,8 @@ public class Login_Register extends javax.swing.JPanel {
     private MyCombo_Box Curso;
     private MyCombo_Box Sexo;
     private MyTextField Contrasena;
+    private MyTextField Usuario;
+    private MyPasswordField Clave;
     
     
     public Login_Register() {
@@ -66,7 +70,7 @@ public class Login_Register extends javax.swing.JPanel {
         Cedula.setHint("Cedula");
         Register.add(Cedula, "w 60%");
         
-        Contrasena = new MyTextField();
+        Contrasena = new MyTextField(); 
         Contrasena.setHint("Contraseña");
         Register.add(Contrasena, "w 60%");
 
@@ -111,9 +115,10 @@ public class Login_Register extends javax.swing.JPanel {
             String edad = Edad.getText();
             String curso = Curso.getSelectedItem().toString();
             String genero = Sexo.getSelectedItem().toString();
+            String contrasenna = Contrasena.getText(); 
 
             // Preparar la consulta SQL para insertar el usuario
-            String sql = "INSERT INTO users(nombre, apellido, edad, sexo, curso, cedula) VALUES (?, ?, ?, ?, ?, ?)";
+             String sql = "INSERT INTO users(nombre, apellido, edad, sexo, curso, cedula, contrasenna) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pps = conn.prepareStatement(sql);
             pps.setString(1, nombre);
             pps.setString(2, apellido);
@@ -121,59 +126,104 @@ public class Login_Register extends javax.swing.JPanel {
             pps.setString(4, genero);
             pps.setString(5, curso);
             pps.setString(6, cedula);
+            pps.setString(7, contrasenna);
 
             // Ejecutar la consulta
             pps.executeUpdate();
 
             JOptionPane.showMessageDialog(this, "Registro exitoso");
-            limpiarCampos();
+            limpiarCamposRegister();
 
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al registrar: " + e.getMessage());
         }
- 
+       
         
     }
     
-  private void limpiarCampos() {
+   
+  private void limpiarCamposRegister() {
         Nombre.setText("");
         Apellido.setText("");
         Edad.setText("");
         Cedula.setText("");
+        Contrasena.setText("");
         Curso.setSelectedIndex(0);
         Sexo.setSelectedIndex(0);
     }
   
+   private void limpiarCamposLogin() {
+        Usuario.setText("");
+        Clave.setText("");
+    }
+  
     private void initLogin(){
-       Login.setLayout(new MigLayout("wrap", "push[center]push", "push[]push"));
-        JLabel Titulo = new JLabel("Bienvenido");
-        Titulo.setFont(new Font("Roboto Black", 1, 30));
-        Titulo.setForeground(new Color(7, 164, 121));
-        Login.add(Titulo);
-        
-        MyTextField Usuario = new MyTextField();
-        Usuario.setHint("Cedula");
-        Login.add(Usuario, "w 60%");
-        
-        MyPasswordField Clave = new MyPasswordField();
-        Clave.setHint("Contraseña");
-        Login.add(Clave, "w 60%");        
+         Login.setLayout(new MigLayout("wrap", "push[center]push", "push[]push"));
+    JLabel Titulo = new JLabel("Bienvenido");
+    Titulo.setFont(new Font("Roboto Black", 1, 30));
+    Titulo.setForeground(new Color(7, 164, 121));
+    Login.add(Titulo);
 
-        JButton B_forget = new JButton("¿Olvidó su contraseña?");
-        B_forget.setBackground(new Color(100, 100, 100));
-        B_forget.setFont(new Font("Roboto Black", 1, 12));
-        B_forget.setContentAreaFilled(false);
-        B_forget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        Login.add(B_forget);
+    Usuario = new MyTextField();  // Initialize class field
+    Usuario.setHint("Cedula");
+    Login.add(Usuario, "w 60%");
 
-        Button B_login = new Button();
-        B_login.setBackground(new Color(7, 164, 121));
-        B_login.setForeground(new Color(250, 250, 250));
-        B_login.setText("Iniciar sesión");
-        Login.add(B_login, "w 60%, h 40");
+    Clave = new MyPasswordField();  // Initialize class field
+    Clave.setHint("Contraseña");
+    Login.add(Clave, "w 60%");        
+
+    JButton B_forget = new JButton("¿Olvidó su contraseña?");
+    B_forget.setBackground(new Color(100, 100, 100));
+    B_forget.setFont(new Font("Roboto Black", 1, 12));
+    B_forget.setContentAreaFilled(false);
+    B_forget.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    Login.add(B_forget);
+
+    B_login = new Button();  // Assuming B_login is a class field
+    B_login.setBackground(new Color(7, 164, 121));
+    B_login.setForeground(new Color(250, 250, 250));
+    B_login.setText("Iniciar sesión");
+    Login.add(B_login, "w 60%, h 40");
+    B_login.addActionListener(this::B_loginActionPerformed);
     }
     
+    
+     private void B_loginActionPerformed(java.awt.event.ActionEvent evt){
+       try {
+        Connection conn = con.getConexion();
+        String usuario = Usuario.getText();
+        String clave = new String(Clave.getPassword());
+
+        // Preparar la consulta SQL con PreparedStatement para evitar SQL injection
+        String sql = "SELECT * FROM users WHERE cedula=? AND contrasenna=?";
+        PreparedStatement pps = conn.prepareStatement(sql);
+        pps.setString(1, usuario);
+        pps.setString(2, clave);
+
+        // Ejecutar la consulta y obtener resultados
+        ResultSet rs = pps.executeQuery();
+
+        // Verificar si se encontró un resultado
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(this, "Login exitoso");
+            limpiarCamposLogin();
+           
+        } else {
+            JOptionPane.showMessageDialog(this, "Credenciales incorrectas");
+        }
+
+        // Cerrar el ResultSet, PreparedStatement y Connection
+        rs.close();
+        pps.close();
+        conn.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al intentar iniciar sesión: " + e.getMessage());
+    }
+        
+    }
     public void showLogin(boolean show){
          if (show) {
             Register.setVisible(true);
