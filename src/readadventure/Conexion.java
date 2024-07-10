@@ -1,5 +1,6 @@
 
 package readadventure;
+import com.mysql.cj.xdevapi.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
     Connection conectar;
+    Statement st;
     
     public Conexion(){
         String host = "localhost";
