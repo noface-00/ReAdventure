@@ -13,12 +13,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
-import readadventure.Conexion;
+import ReAdventure.Conexion;
 import swing.controls.Button;
 import swing.controls.MyCombo_Box;
 import swing.controls.MyPasswordField;
 import swing.controls.MyTextField;
-import readadventure.Conexion;
+import ReAdventure.Conexion;
 
 /**
  *
@@ -54,28 +54,33 @@ public class Login_Register extends javax.swing.JPanel {
     private void initRegister() {
         Register.setLayout(new MigLayout("wrap", "push[center]push", "push[]push"));
         JLabel Titulo = new JLabel("Crear Cuenta");
-        Titulo.setFont(new Font("Roboto Black", 1, 30));
+        Titulo.setFont(new Font("Roboto Black", 1, 60));
         Titulo.setForeground(new Color(7, 164, 121));
         Register.add(Titulo);
 
         Nombre = new MyTextField();
         Nombre.setHint("Nombre");
+        Nombre.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Person.png")));
         Register.add(Nombre, "w 60%");
 
         Apellido = new MyTextField();
         Apellido.setHint("Apellido");
+        Apellido.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Person.png")));
         Register.add(Apellido, "w 60%");
 
         Cedula = new MyTextField();
         Cedula.setHint("Cedula");
+        Cedula.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Cedula.png")));
         Register.add(Cedula, "w 60%");
         
         Contrasena = new MyTextField(); 
         Contrasena.setHint("Contraseña");
+        Contrasena.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Contrasena.png")));
         Register.add(Contrasena, "w 60%");
 
         Edad = new MyTextField();
         Edad.setHint("Edad");
+        Edad.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Edad.png")));
         Register.add(Edad, "w 60%");
 
         Curso = new MyCombo_Box();
@@ -85,7 +90,7 @@ public class Login_Register extends javax.swing.JPanel {
         Curso.setHint("Cursos");
         Curso.setBackground(new Color(7, 164, 121));
         Curso.setSelectionBackground(new Color(250, 250, 250));
-        Register.add(Curso, "width 30%, height 30lp, align right");
+        Register.add(Curso, "w 60%, h 40");
 
         Sexo = new MyCombo_Box();
         Sexo.addItem("Género");
@@ -94,7 +99,7 @@ public class Login_Register extends javax.swing.JPanel {
         Sexo.setHint("Género");
         Sexo.setBackground(new Color(7, 164, 121));
         Sexo.setSelectionBackground(new Color(250, 250, 250));
-        Register.add(Sexo, "width 30%, height 30lp, align left");
+        Register.add(Sexo, "w 60%, h 40");
 
         Button B_register = new Button();
         B_register.setBackground(new Color(7, 164, 121));
@@ -161,16 +166,18 @@ public class Login_Register extends javax.swing.JPanel {
     private void initLogin(){
          Login.setLayout(new MigLayout("wrap", "push[center]push", "push[]push"));
     JLabel Titulo = new JLabel("Bienvenido");
-    Titulo.setFont(new Font("Roboto Black", 1, 30));
+    Titulo.setFont(new Font("Roboto Black", 1, 60));
     Titulo.setForeground(new Color(7, 164, 121));
     Login.add(Titulo);
 
     Usuario = new MyTextField();  // Initialize class field
     Usuario.setHint("Cedula");
+    Usuario.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Cedula.png")));
     Login.add(Usuario, "w 60%");
 
     Clave = new MyPasswordField();  // Initialize class field
     Clave.setHint("Contraseña");
+    Clave.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Contrasena.png")));
     Login.add(Clave, "w 60%");        
 
     JButton B_forget = new JButton("¿Olvidó su contraseña?");
