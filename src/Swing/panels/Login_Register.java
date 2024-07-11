@@ -29,7 +29,7 @@ import java.awt.event.KeyListener;
  */
 public class Login_Register extends javax.swing.JPanel {
     private Conexion con;
-    private Button B_register;
+    private JButton B_register;
     private Button B_login;
     private MyTextField Nombre;
     private MyTextField Apellido;
@@ -65,11 +65,39 @@ public class Login_Register extends javax.swing.JPanel {
         Nombre.setHint("Nombre");
         Nombre.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Person.png")));
         Register.add(Nombre, "w 60%");
+         Nombre.addKeyListener(new KeyListener() {
+        @Override
+            public void keyTyped(KeyEvent e) {
+             NombreKeyTyped(e);
+            }
+        @Override
+            public void keyPressed(KeyEvent e) {
+            // Método requerido por la interfaz KeyListener
+            }
+        @Override
+           public void keyReleased(KeyEvent e) {
+        // Método requerido por la interfaz KeyListener
+    }
+    });
 
         Apellido = new MyTextField();
         Apellido.setHint("Apellido");
         Apellido.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Person.png")));
         Register.add(Apellido, "w 60%");
+        Apellido.addKeyListener(new KeyListener() {
+        @Override
+            public void keyTyped(KeyEvent e) {
+             ApellidoKeyTyped(e);
+            }
+        @Override
+            public void keyPressed(KeyEvent e) {
+            // Método requerido por la interfaz KeyListener
+            }
+        @Override
+           public void keyReleased(KeyEvent e) {
+        // Método requerido por la interfaz KeyListener
+    }
+    });
 
         Cedula = new MyTextField();
         Cedula.setHint("Cedula");
@@ -88,7 +116,7 @@ public class Login_Register extends javax.swing.JPanel {
            public void keyReleased(KeyEvent e) {
         // Método requerido por la interfaz KeyListener
     }
-});
+    });
         
         Contrasena = new MyTextField(); 
         Contrasena.setHint("Contraseña");
@@ -99,6 +127,21 @@ public class Login_Register extends javax.swing.JPanel {
         Edad.setHint("Edad");
         Edad.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Edad.png")));
         Register.add(Edad, "w 60%");
+        
+        Edad.addKeyListener(new KeyListener() {
+        @Override
+            public void keyTyped(KeyEvent e) {
+             EdadKeyTyped(e);
+            }
+        @Override
+            public void keyPressed(KeyEvent e) {
+            // Método requerido por la interfaz KeyListener
+            }
+        @Override
+           public void keyReleased(KeyEvent e) {
+        // Método requerido por la interfaz KeyListener
+    }
+    });
 
         Curso = new MyCombo_Box();
         Curso.addItem("Curso");
@@ -118,7 +161,8 @@ public class Login_Register extends javax.swing.JPanel {
         Sexo.setSelectionBackground(new Color(44, 131, 192));
         Register.add(Sexo, "w 60%, h 40");
 
-        Button B_register = new Button();
+        
+        B_register = new JButton();  // Cambio aquí: utilizar JButton en lugar de Button
         B_register.setBackground(new Color(7, 164, 121));
         B_register.setForeground(new Color(250, 250, 250));
         B_register.setText("Registrarse");
@@ -126,9 +170,19 @@ public class Login_Register extends javax.swing.JPanel {
         B_register.addActionListener(this::B_registerActionPerformed);
 
 
+
+
     }
     
     private void CedulaKeyTyped(java.awt.event.KeyEvent evt){
+       char key = evt.getKeyChar();
+    if (!(Character.isDigit(key) || key == KeyEvent.VK_BACK_SPACE)) {
+        evt.consume(); // Consume el evento para evitar que el carácter sea ingresado
+    } else if (Cedula.getText().length() >= 10) {
+        evt.consume(); // Limita la longitud del texto a 10 caracteres
+    }
+    }
+    private void EdadKeyTyped(java.awt.event.KeyEvent evt){
         int key=evt.getKeyChar();
         boolean numero = key >=48 && key <=57;
     
@@ -138,13 +192,22 @@ public class Login_Register extends javax.swing.JPanel {
         
         }
     }
+    private void NombreKeyTyped(java.awt.event.KeyEvent evt){
+        char key = evt.getKeyChar();
+        if (!(Character.isLetter(key) || key == KeyEvent.VK_BACK_SPACE)) {
+        evt.consume(); // Consume el evento para evitar que el carácter sea ingresado
+    }
+    }
+    private void ApellidoKeyTyped(java.awt.event.KeyEvent evt){
+        char key = evt.getKeyChar();
+        if (!(Character.isLetter(key) || key == KeyEvent.VK_BACK_SPACE)) {
+        evt.consume(); // Consume el evento para evitar que el carácter sea ingresado
+    }
+    }
+    
     private void B_registerActionPerformed(java.awt.event.ActionEvent evt){
-       
-        
-        
-        
-        
-        
+        System.out.println("ta");
+        limpiarCamposRegister();
        try {
            String nombre = Nombre.getText();
         String apellido = Apellido.getText();
@@ -206,6 +269,20 @@ public class Login_Register extends javax.swing.JPanel {
     Usuario.setHint("Cedula");
     Usuario.setPrefixIcon(new ImageIcon(getClass().getResource("/icons/readventure/Cedula.png")));
     Login.add(Usuario, "w 60%");
+     Usuario.addKeyListener(new KeyListener() {
+        @Override
+            public void keyTyped(KeyEvent e) {
+             UsuarioKeyTyped(e);
+            }
+        @Override
+            public void keyPressed(KeyEvent e) {
+            // Método requerido por la interfaz KeyListener
+            }
+        @Override
+           public void keyReleased(KeyEvent e) {
+        // Método requerido por la interfaz KeyListener
+    }
+    });
 
     Clave = new MyPasswordField();  // Initialize class field
     Clave.setHint("Contraseña");
@@ -226,9 +303,18 @@ public class Login_Register extends javax.swing.JPanel {
     Login.add(B_login, "w 60%, h 40");
     B_login.addActionListener(this::B_loginActionPerformed);
     }
+     private void UsuarioKeyTyped(java.awt.event.KeyEvent evt){
+        char key = evt.getKeyChar();
+    if (!(Character.isDigit(key) || key == KeyEvent.VK_BACK_SPACE)) {
+        evt.consume(); // Consume el evento para evitar que el carácter sea ingresado
+    } else if (Usuario.getText().length() >= 10) {
+        evt.consume(); // Limita la longitud del texto a 10 caracteres
+    }
+    }
     
     
      private void B_loginActionPerformed(java.awt.event.ActionEvent evt){
+         limpiarCamposLogin();
        try {
         Connection conn = con.getConexion();
         String usuario = Usuario.getText();

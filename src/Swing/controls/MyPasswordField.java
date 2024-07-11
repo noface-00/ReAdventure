@@ -21,11 +21,11 @@ public class MyPasswordField extends JPasswordField {
     // Constructor de la clase
     public MyPasswordField() {
         // Configuración inicial del campo de contraseña
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Borde vacío con márgenes de 10 en cada lado
-        setBackground(new Color(0, 0, 0, 0)); // Fondo transparente
+        setOpaque(false); // Fondo transparente
         setForeground(Color.BLACK); // Color de texto
         setFont(new java.awt.Font("Roboto Black", 0, 13)); // Fuente y tamaño de la fuente
         setSelectionColor(new Color(75, 175, 152)); // Color de selección
+        setBorder(javax.swing.BorderFactory.createLineBorder(Color.BLACK)); // Borde negro
     }
 
     // Getter y Setter para el texto de sugerencia
@@ -44,7 +44,7 @@ public class MyPasswordField extends JPasswordField {
 
     public void setPrefixIcon(Icon prefixIcon) {
         this.prefixIcon = prefixIcon;
-        initBorder(); // Llama a un método para ajustar el borde del campo de contraseña
+        initBorder(); // Ajusta el borde del campo de contraseña
     }
 
     // Getter y Setter para el ícono sufijo
@@ -54,34 +54,26 @@ public class MyPasswordField extends JPasswordField {
 
     public void setSuffixIcon(Icon suffixIcon) {
         this.suffixIcon = suffixIcon;
-        initBorder(); // Llama a un método para ajustar el borde del campo de contraseña
+        initBorder(); // Ajusta el borde del campo de contraseña
     }
 
     // Método para pintar el componente
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Llama al método de la clase base para pintar el componente
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Renderización suave
-        g2.setColor(new Color(230, 245, 241)); // Color de fondo del campo de contraseña
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5); // Dibuja un rectángulo redondeado como fondo
-        paintIcon(g); // Llama a un método para pintar los íconos (prefijo y sufijo)
-    }
-
-    // Método para pintar el texto de sugerencia si el campo de contraseña está vacío
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g); // Llama al método de la clase base para pintar el componente
-
-        if (getPassword().length == 0) { // Verifica si el campo de contraseña está vacío
-            int height = getHeight();
-            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // Renderización suave del texto
+        
+        if (getPassword().length == 0 && !isFocusOwner()) { // Verifica si el campo de contraseña está vacío y no tiene el foco
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Renderizado suave
+            g2.setColor(new Color(200, 200, 200)); // Color del texto de sugerencia
             Insets insets = getInsets();
             FontMetrics fontMetrics = g.getFontMetrics();
-            g.setColor(new Color(200, 200, 200)); // Color del texto de sugerencia
-            g.drawString(hint, insets.left, height / 2 + fontMetrics.getAscent() / 2 - 2); // Dibuja el texto de sugerencia centrado verticalmente
+            int x = insets.left; // Posición inicial del texto
+            int y = (getHeight() - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent(); // Posición vertical centrada
+            g2.drawString(hint, x, y); // Dibuja el texto de sugerencia
         }
+        
+        paintIcon(g); // Llama al método para pintar los íconos (prefijo y sufijo)
     }
 
     // Método privado para pintar los íconos (prefijo y sufijo)
