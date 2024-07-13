@@ -27,18 +27,19 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  * @author PC
  */
 public class UI extends javax.swing.JFrame {
-    private MigLayout layout;
-    private Panel_cover cover;
-    private Login_Register loginANDRegister;
-    private PanelForgetPassword ForgetPassword;
-    private boolean isLogin = false;
-    private final double addSize =  30;
-    private final double coverSize = 45;
-    private final double loginSize = 60;
-    private final DecimalFormat df = new DecimalFormat("##0.###", DecimalFormatSymbols.getInstance(Locale.US));
-    private Service_BD service;
+    private MigLayout layout; // Layout manager para la disposición de componentes
+    private Panel_cover cover; // Panel de cubierta
+    private Login_Register loginANDRegister; // Panel de login y registro
+    private PanelForgetPassword ForgetPassword; // Panel para olvidar contraseña
+    private boolean isLogin = false; // Estado de login
+    private final double addSize =  30; // Tamaño adicional
+    private final double coverSize = 45; // Tamaño del panel de cubierta
+    private final double loginSize = 60; // Tamaño del panel de login
+    private final DecimalFormat df = new DecimalFormat("##0.###", DecimalFormatSymbols.getInstance(Locale.US)); // Formato decimal
+    private Service_BD service; // Servicio de base de datos
+
     
-    
+    // Constructor de la clase UI
     public UI() {
         initComponents();
         init();
@@ -46,30 +47,38 @@ public class UI extends javax.swing.JFrame {
     
     @SuppressWarnings("Convert2Lambda")
     private void init(){
-        service = new Service_BD();
-        layout = new MigLayout("fill, insets 0");
-        cover = new Panel_cover();
-        ForgetPassword = new PanelForgetPassword();
+        service = new Service_BD(); // Inicializar el servicio de base de datos
+        layout = new MigLayout("fill, insets 0"); // Inicializa MigLayout
+        cover = new Panel_cover(); // Inicializar panel de cubierta
+        ForgetPassword = new PanelForgetPassword(); // Inicializar panel de olvidar contraseña
+        
+        // Listener para el evento de olvidar contraseña
         ActionListener eventForgetPass = new ActionListener() {
-        @Override
+            @Override
             public void actionPerformed(ActionEvent e) {
                 F_password();
             }
         };
+        // Listener para el evento de registro
         ActionListener eventRegister = new ActionListener() {
-        @Override
+            @Override
             public void actionPerformed(ActionEvent e) {
                 R_usuarios();
             }
         };
+        
+        // Listener para el evento de login
         ActionListener eventLogin = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 L_usuarios();
             }
         };
+        
+        // Inicializar el panel de login y registro con los listeners
         loginANDRegister = new Login_Register(eventForgetPass, eventRegister, eventLogin);
         
+        // Animación para la transición entre el panel de login y registro
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             @SuppressWarnings("UnnecessaryTemporaryOnConversionFromString")
@@ -79,7 +88,7 @@ public class UI extends javax.swing.JFrame {
                 double size = coverSize;
                 if(fraction <= 0.5f){
                     size += fraction * addSize;
-                }else{
+                } else {
                     size += addSize - fraction * addSize;
                 }
                 if(isLogin){
@@ -90,12 +99,12 @@ public class UI extends javax.swing.JFrame {
                     } else {
                         cover.loginRight(fractionLogin * 100);
                     }
-                }else{
+                } else {
                     fractionCover = fraction;
                     fractionLogin = 1f - fraction;
                     if(fraction <= 0.5f){
                         cover.registerLeft(fraction*100);
-                    }else {
+                    } else {
                         cover.loginLeft((1f - fraction)*100);
                     }
                 }
@@ -104,24 +113,29 @@ public class UI extends javax.swing.JFrame {
                 }
                 fractionCover = Double.valueOf(df.format(fractionCover));
                 fractionLogin = Double.valueOf(df.format(fractionLogin));
-                layout.setComponentConstraints(cover, "width " + size +"%, pos" + fractionCover + "al 0 n 100%");
-                layout.setComponentConstraints(loginANDRegister, "width " + loginSize +"%, pos" + fractionLogin + "al 0 n 100%");
+                layout.setComponentConstraints(cover, "width " + size + "%, pos " + fractionCover + "al 0 n 100%");
+                layout.setComponentConstraints(loginANDRegister, "width " + loginSize + "%, pos " + fractionLogin + "al 0 n 100%");
                 main.revalidate();
             }
+            
             @Override
             public void end() {
                 isLogin =! isLogin;
             }
         };
-        Animator animator = new Animator(1000, target);
+        
+        
+        Animator animator = new Animator(1000, target); // Inicializar el animador
         animator.setAcceleration(0.5f);
         animator.setDeceleration(0.5f);
-        animator.setResolution(0); //Suavizado de animacion
-        main.setLayout(layout);
+        animator.setResolution(0); // Suavizado de animación
+        
+        main.setLayout(layout); // Establecer el layout del panel principal
         main.setLayer(ForgetPassword, JLayeredPane.POPUP_LAYER);
-        main.add(ForgetPassword,"pos 0 0 100% 100%");
-        main.add(cover, "width " + coverSize+ "%, pos 0al 0 n 100%");
+        main.add(ForgetPassword, "pos 0 0 100% 100%");
+        main.add(cover, "width " + coverSize + "%, pos 0al 0 n 100%");
         main.add(loginANDRegister, "width " + loginSize + "%, pos 1al 0 n 100%");
+        
         cover.addEvent(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,12 +157,13 @@ public class UI extends javax.swing.JFrame {
     private void R_usuarios(){
         Usuarios usuario = loginANDRegister.getUsuario();
         try {
-            if (usuario.equals("")) {
-                // Verificar si la cédula ya existe
+            // Verifica si los datos ingresados estan en blanco
+            if (!usuario.equals("")) {
+                // Verifica si la cédula ya existe
                 if (service.checkDuplicateID(usuario.getCedula())) {
                     showMessage(Message.MessageType.ERROR, "Cédula existente");
                 } else {
-                    // Insertar el nuevo usuario
+                    // Inserta el nuevo usuario
                     service.insertRegisterUser(usuario);
                     showMessage(Message.MessageType.SUCCESS, "Registro exitoso");
                     loginANDRegister.limpiarCamposRegister();
@@ -159,7 +174,7 @@ public class UI extends javax.swing.JFrame {
                 usuario.setApellido("");
             }
         } catch (Exception e) {
-            // Manejar cualquier otra excepción
+            // Maneja cualquier otra excepción
             showMessage(Message.MessageType.ERROR, "Error al registrarse");
     }
    
@@ -169,9 +184,11 @@ public class UI extends javax.swing.JFrame {
     private void L_usuarios(){
         Usuarios_L data = loginANDRegister.getData_login();
         try {
+            // Verifica si los datos ingresados estan en blanco
             if(data.equals("")){
                showMessage(Message.MessageType.ERROR, "Ingrese sus crendenciales"); 
             }else{ 
+                // Inserta los datos 
             service.insertloginUser(data);
             showMessage(Message.MessageType.SUCCESS, "Credenciales correctas");
             loginANDRegister.limpiarCamposLogin();
