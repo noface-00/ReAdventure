@@ -21,6 +21,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import ReAdventure.BaseD.Usuarios;
 import ReAdventure.BaseD.Usuarios_Update;
 import ReAdventure.funcions.Validate_cedula;
+import javax.swing.ImageIcon;
 
 
 
@@ -50,6 +51,8 @@ public class UI extends javax.swing.JFrame {
     
     @SuppressWarnings("Convert2Lambda")
     private void init(){
+        setIconImage(new ImageIcon(getClass().getResource("/ReAdventure/icons/logo.png")).getImage());
+        setTitle("ReAdventure");
         service = new Service_BD(); // Inicializar el servicio de base de datos
         layout = new MigLayout("fill, insets 0"); // Inicializa MigLayout
         cover = new Panel_cover(); // Inicializar panel de cubierta

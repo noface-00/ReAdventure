@@ -27,6 +27,8 @@ public class Main extends javax.swing.JFrame {
         
         
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/ReAdventure/icons/logo.png")).getImage());
+        setTitle("ReAdventure");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());        
