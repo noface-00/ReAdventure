@@ -19,6 +19,8 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import ReAdventure.BaseD.Usuarios;
+import ReAdventure.BaseD.Usuarios_Update;
+import ReAdventure.funcions.Validate_cedula;
 
 
 
@@ -37,6 +39,7 @@ public class UI extends javax.swing.JFrame {
     private final double loginSize = 60; // Tamaño del panel de login
     private final DecimalFormat df = new DecimalFormat("##0.###", DecimalFormatSymbols.getInstance(Locale.US)); // Formato decimal
     private Service_BD service; // Servicio de base de datos
+    private Validate_cedula V_cedula;
 
     
     // Constructor de la clase UI
@@ -50,8 +53,14 @@ public class UI extends javax.swing.JFrame {
         service = new Service_BD(); // Inicializar el servicio de base de datos
         layout = new MigLayout("fill, insets 0"); // Inicializa MigLayout
         cover = new Panel_cover(); // Inicializar panel de cubierta
-        ForgetPassword = new PanelForgetPassword(); // Inicializar panel de olvidar contraseña
-        
+        V_cedula = new Validate_cedula();
+        ActionListener eventUpdatePass = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Updated_Password();
+            }
+            
+        };
         // Listener para el evento de olvidar contraseña
         ActionListener eventForgetPass = new ActionListener() {
             @Override
@@ -75,6 +84,7 @@ public class UI extends javax.swing.JFrame {
             }
         };
         
+        ForgetPassword = new PanelForgetPassword(eventUpdatePass); // Inicializar panel de olvidar contraseña
         // Inicializar el panel de login y registro con los listeners
         loginANDRegister = new Login_Register(eventForgetPass, eventRegister, eventLogin);
         
@@ -148,21 +158,85 @@ public class UI extends javax.swing.JFrame {
         
     }
    
-    
+    private void Updated_Password(){
+       Usuarios_Update usuario = ForgetPassword.getUsuario_UP();
+       try {
+            if (usuario.getCedula().isEmpty()) {
+                showMessage(Message.MessageType.ERROR, "Ingrese su cedula");
+                return;
+            }
+            if(!V_cedula.isValidCedula(usuario.getCedula())){
+                showMessage(Message.MessageType.ERROR, "La cedula no es valida");
+                return;
+            }
+
+            if (usuario.getContrasena().isEmpty()) {
+                showMessage(Message.MessageType.ERROR, "Ingrese su nueva contraseña");
+                return;
+            }
+            
+            if (usuario.getContrasena().length() < 5) {
+            showMessage(Message.MessageType.ERROR, "La contraseña debe tener al menos 5 caracteres");
+            return;
+            }
+            
+            if (!containsNumber(usuario.getContrasena())) {
+            showMessage(Message.MessageType.ERROR, "Falta escribir un número en la contraseña");
+            return;
+             }
+           
+            if (!containsUpperCase(usuario.getContrasena())) {
+            showMessage(Message.MessageType.ERROR, "Falta escribir una mayúscula en la contraseña");
+            return;
+            }
+            
+            if (!containsSpecialCharacter(usuario.getContrasena())) {
+            showMessage(Message.MessageType.ERROR, "La contraseña debe contener al menos un carácter especial");
+            return;
+            }
+
+            if (usuario.getVerf_Contrasena().isEmpty()) {
+                showMessage(Message.MessageType.ERROR, "Repita su nueva contraseña");
+                return;
+            }          
+            
+            if(!usuario.getContrasena().equals(usuario.getVerf_Contrasena())){
+                showMessage(Message.MessageType.ERROR, "Las contraseñas no coinciden");
+                System.out.println(usuario.getContrasena());
+                System.out.println(usuario.getContrasena());
+                return;
+            }
+            
+            if (service.checkDuplicateID(usuario.getCedula())) {
+                service.updatePasswordByCedula(usuario.getCedula(), usuario.getVerf_Contrasena());
+                showMessage(Message.MessageType.SUCCESS, "Cambio de contraseña exitoso");
+                ForgetPassword.close_updatePass();
+            } else {
+              showMessage(Message.MessageType.ERROR, "Usted no esta registrado");
+            }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            showMessage(Message.MessageType.ERROR, "Error al cambiar contraseña");
+            
+        }
+    }
     private void F_password(){
         ForgetPassword.setVisible(true);
         System.out.println("CLICK");
+
     }
     
     private void R_usuarios(){
       Usuarios usuario = loginANDRegister.getUsuario();
-      String nombre = loginANDRegister.getNombre();
-      String apellido = loginANDRegister.getApellido();
-      String edad = loginANDRegister.getEdad();
-      String contrasena = loginANDRegister.getContrasena();
-      String contrasenaR = loginANDRegister.getContrasenaR();
-      String curso = loginANDRegister.getCurso();
-      String sexo = loginANDRegister.getSexo();
+      String nombre = usuario.getNombre();
+      String apellido = usuario.getApellido();
+      String cedula = usuario.getCedula();
+      String edad = usuario.getEdad();
+      String contrasena = usuario.getContrasena();
+      String contrasenaR = usuario.getContrasenaR();
+      String curso = usuario.getCurso();
+      String sexo = usuario.getGenero();
         try {
             if (nombre.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta Nombre");
@@ -173,9 +247,24 @@ public class UI extends javax.swing.JFrame {
                 showMessage(Message.MessageType.ERROR, "Falta Apellido");
                 return;
             }
-
+            
+            if (cedula.isEmpty()){
+                showMessage(Message.MessageType.ERROR, "Falta Cedula");
+                return;
+            }
+            
+            if(!V_cedula.isValidCedula(cedula)){
+                showMessage(Message.MessageType.ERROR, "La cedula no es valida");
+                return;
+            }
+            
             if (edad.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta Edad");
+                return;
+            }
+            
+            if (Integer.parseInt(edad) <= 7 || Integer.parseInt(edad) >= 11){
+                showMessage(Message.MessageType.ERROR, "La edad debe estar entre 8 a 10 años");
                 return;
             }
 
@@ -183,11 +272,38 @@ public class UI extends javax.swing.JFrame {
                 showMessage(Message.MessageType.ERROR, "Falta Contraseña");
                 return;
             }
-
+ 
+            if (contrasena.length() < 5) {
+            showMessage(Message.MessageType.ERROR, "La contraseña debe tener al menos 5 caracteres");
+            return;
+            }
+            
+            if (!containsNumber(contrasena)) {
+            showMessage(Message.MessageType.ERROR, "Falta escribir un número en la contraseña");
+            return;
+             }
+           
+            if (!containsUpperCase(contrasena)) {
+            showMessage(Message.MessageType.ERROR, "Falta escribir una mayúscula en la contraseña");
+            return;
+            }
+            
+            if (!containsSpecialCharacter(contrasena)) {
+            showMessage(Message.MessageType.ERROR, "La contraseña debe contener al menos un carácter especial");
+            return;
+            }
+            
             if (contrasenaR.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta repetir la Contraseña");
                 return;
             }
+            
+            if(!contrasena.equals(contrasenaR)){
+                showMessage(Message.MessageType.ERROR, "Las contraseñas no coiciden");
+                return;
+            }
+            
+            
             if (curso.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta Curso");
                 return;
@@ -197,22 +313,18 @@ public class UI extends javax.swing.JFrame {
                 showMessage(Message.MessageType.ERROR, "Falta Género");
                 return;
             }
-
             if (service.checkDuplicateID(usuario.getCedula())) {
                 showMessage(Message.MessageType.ERROR, "Cédula existente");
                 return;
-            }
-            
-           if (service.checkDuplicateID(usuario.getCedula())) {
-            showMessage(Message.MessageType.ERROR, "Cédula existente");
             } else {
                 // Insertar el nuevo usuario si pasa todas las validaciones
-              service.insertRegisterUser(usuario);
-              showMessage(Message.MessageType.SUCCESS, "Registro exitoso");
-              loginANDRegister.limpiarCamposRegister();
+                service.insertRegisterUser(usuario);
+                showMessage(Message.MessageType.SUCCESS, "Registro exitoso");
+                loginANDRegister.limpiarCamposRegister();
             }
 
         } catch (Exception e) {
+            System.err.print(e);
             showMessage(Message.MessageType.ERROR, "Error al registrarse");
         }
     }
@@ -220,35 +332,47 @@ public class UI extends javax.swing.JFrame {
 
     private void L_usuarios(){
         Usuarios_L data = loginANDRegister.getData_login();
-        String user = loginANDRegister.getUser();
-        String clave = loginANDRegister.getClave();
+        String user = data.getUser();
+        String clave = data.getClave();
         try {
+            // Verifica si los datos ingresados estan en blanco
+            if(data.equals("")){
+               showMessage(Message.MessageType.ERROR, "Ingrese sus crendenciales"); 
+            }
+            
             if (user.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta la Cédula");
                 return;
             }
-
+            if(!service.checkDuplicateID(user)){
+                showMessage(Message.MessageType.ERROR, "Su cedula no esta registrada");
+                return;
+            }
+            
             if (clave.isEmpty()) {
                 showMessage(Message.MessageType.ERROR, "Falta Contraseña");
                 return;
             }
-            // Verifica si los datos ingresados estan en blanco
-            if(data.equals("")){
-               showMessage(Message.MessageType.ERROR, "Ingrese sus crendenciales"); 
-            }else{ 
-                // Inserta los datos 
-            service.insertloginUser(data);
-            showMessage(Message.MessageType.SUCCESS, "Credenciales correctas");
-            loginANDRegister.limpiarCamposLogin();
+
+            if(service.insertloginUser(data)){
+                showMessage(Message.MessageType.SUCCESS, "Credenciales correctas");
+                Main Inicio = new Main();
+                setVisible(false);
+                Inicio.setVisible(true);
+                Inicio.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                
+            } else{ 
+               showMessage(Message.MessageType.ERROR, "Credenciales incorrectas");
+            
             }
         }   catch(Exception e){
-           showMessage(Message.MessageType.ERROR, "Error al Loguearse"); 
+           showMessage(Message.MessageType.ERROR, "Error al loguearse"); 
         }
         
     }
     
     @SuppressWarnings("Convert2Lambda")
-    private void showMessage(Message.MessageType messageType, String message){
+    public void showMessage(Message.MessageType messageType, String message){
             Message ms = new Message();
             ms.showMessage(messageType, message);
             TimingTarget target = new TimingTarget(){
@@ -309,6 +433,35 @@ public class UI extends javax.swing.JFrame {
                 }
             }).start();                    
     }
+    
+    private boolean containsNumber(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+            return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsUpperCase(String str) {
+    for (char c : str.toCharArray()) {
+        if (Character.isUpperCase(c)) {
+            return true;
+        }
+    }
+        return false;
+    }
+    private boolean containsSpecialCharacter(String password) {
+        // Aquí puedes definir los caracteres especiales que deseas validar
+        String specialCharacters = "!@#$%^&()-_=+[]{}<>?;:,./\\|~\"'°¨´¡¿?=/&%$#°*~¢£áéíóú®ÁÉÍÓÚ";
+        for (char c : specialCharacters.toCharArray()) {
+            if (password.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

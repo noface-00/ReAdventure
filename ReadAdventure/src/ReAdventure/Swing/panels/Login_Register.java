@@ -14,8 +14,8 @@ import ReAdventure.Swing.controls.Button;
 import ReAdventure.Swing.controls.MyCombo_Box;
 import ReAdventure.Swing.controls.MyPasswordField;
 import ReAdventure.Swing.controls.MyTextField;
-import ReAdventure.BaseD.Conexion;
 import ReAdventure.BaseD.Usuarios_L;
+import ReAdventure.UI;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -43,7 +43,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
     
     private Usuarios_L data_login;
     private Usuarios usuario;
-   
+    private UI main;
     private Button B_register;
     private Button B_login;
     private MyTextField Nombre;
@@ -82,7 +82,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
 
         Nombre = new MyTextField();
         Nombre.setHint("Nombre");
-        Nombre.setPrefixIcon(new ImageIcon(getClass().getResource("/ReAdventure/icons/Person.png")));
+        Nombre.setPrefixIcon(new ImageIcon(getClass().getResource("/ReAdventure/icons/Apellido.png")));
         Register.add(Nombre, "w 60%");
          Nombre.addKeyListener(new KeyListener() {
         @Override
@@ -102,7 +102,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
          
         Apellido = new MyTextField();
         Apellido.setHint("Apellido");
-        Apellido.setPrefixIcon(new ImageIcon(getClass().getResource("/ReAdventure/icons/Person.png")));
+        Apellido.setPrefixIcon(new ImageIcon(getClass().getResource("/ReAdventure/icons/Apellido.png")));
         Register.add(Apellido, "w 60%");
         Apellido.addKeyListener(new KeyListener() {
         @Override
@@ -157,7 +157,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
     }
     });
         Contrasena = new MyTextField();
-        Contrasena.setHint("Contraseña");
+        Contrasena.setHint(" Contraseña");
         Contrasena.setPrefixIcon(new ImageIcon(getClass().getResource("/ReAdventure/icons/Contrasena.png")));
         Register.add(Contrasena, "w 60%");
         
@@ -194,57 +194,17 @@ public class Login_Register extends javax.swing.JLayeredPane {
         String apellido = Capitalize(Apellido.getText().trim());
         String cedula = Cedula.getText().trim();
         String edad = Edad.getText().trim();
-        String contrasenna = new String(ContrasenaR.getText()); // Use getPassword() for JPasswordField
+        String contrasenna = new String(Contrasena.getText()); // Use getPassword() for JPasswordField
         String curso = Curso.getSelectedItem().toString();
         String sexo = Sexo.getSelectedItem().toString();
         
        
-        int edadC = 0;
-        if (!edad.isEmpty()) {
-            try {
-                edadC = Integer.parseInt(edad);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "La edad debe ser un número válido");
-                return;
-            }
-        }
         
-    
-        if (!isValidCedula(cedula)) {
-            JOptionPane.showMessageDialog(null, "La cédula no es válida");
-        } else if (edadC < 8 || edadC > 10) {
-            JOptionPane.showMessageDialog(null, "La edad debe estar entre 8 y 10 años");
-        } else if (!Contrasena.getText().equals(ContrasenaR.getText())) {
-            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-        } else {
             // Registration successful
-            usuario = new Usuarios(edad, cedula, nombre, apellido, contrasenna, curso, sexo);
+            usuario = new Usuarios(edad, cedula, nombre, apellido, contrasenna, curso, sexo, ContrasenaR.getText());
 
-        }
     }
         });
-    }
-    
-    public String getNombre() {
-        return Nombre.getText();
-    }
-    public String getApellido() {
-        return Apellido.getText();
-    }
-    public String getEdad() {
-        return Edad.getText().trim();
-    }
-    public String getContrasena() {
-        return Contrasena.getText();
-    }
-    public String getContrasenaR() {
-        return ContrasenaR.getText();
-    }
-     public String getCurso() {
-        return Curso.getSelectedItem().toString();
-    }
-    public String getSexo() {
-        return Sexo.getSelectedItem().toString();
     }
     
     private void CedulaKeyTyped(java.awt.event.KeyEvent evt){
@@ -354,13 +314,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
     
     
     }
-    public String getUser() {
-        return User.getText();
-    }
-    public String getClave() {
-        return new String(Clave.getPassword());
-    }
-    
+
     private void UsuarioKeyTyped(java.awt.event.KeyEvent evt){
         char key = evt.getKeyChar();
         if (!(Character.isDigit(key) || key == KeyEvent.VK_BACK_SPACE)) {
@@ -388,38 +342,7 @@ public class Login_Register extends javax.swing.JLayeredPane {
             Register.revalidate();
         }
     }
-      private boolean isValidCedula(String cedula) {
-      if (cedula.length() != 10) {
-        return false;
-    }
 
-    int alternador = 0;
-    int suma = 0;
-    int[] L_temp = new int[10];
-
-    for (int i = 0; i < 9; i++) {
-        int valor = Character.getNumericValue(cedula.charAt(i));
-
-        valor *= (alternador == 0) ? 2 : 1;
-        alternador = 1 - alternador;
-
-        if (valor >= 10) {
-            valor -= 9;
-        }
-
-        L_temp[i] = valor;
-    }
-
-    suma = 0;
-    for (int i = 0; i < 9; i++) {
-        suma += L_temp[i];
-    }
-
-    int comp = suma % 10;
-    int com_1 = (comp == 0) ? 0 : 10 - comp;
-
-    return Character.getNumericValue(cedula.charAt(9)) == com_1;
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

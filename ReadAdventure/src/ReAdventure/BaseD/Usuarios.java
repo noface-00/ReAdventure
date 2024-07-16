@@ -4,6 +4,20 @@ package ReAdventure.BaseD;
 public class Usuarios {
 
     /**
+     * @return the ContrasenaR
+     */
+    public String getContrasenaR() {
+        return ContrasenaR;
+    }
+
+    /**
+     * @param ContrasenaR the ContrasenaR to set
+     */
+    public void setContrasenaR(String ContrasenaR) {
+        this.ContrasenaR = ContrasenaR;
+    }
+
+    /**
      * @return the Edad
      */
     public String getEdad() {
@@ -101,7 +115,7 @@ public class Usuarios {
         this.Genero = Genero;
     }
 
-    public Usuarios(String Edad, String Cedula, String Nombre, String Apellido, String Contrasena, String Curso, String Genero) {
+    public Usuarios(String Edad, String Cedula, String Nombre, String Apellido, String Contrasena, String Curso, String Genero, String ContrasenaR) {
         this.Edad = Edad;
         this.Cedula = Cedula;
         this.Nombre = Nombre;
@@ -109,6 +123,7 @@ public class Usuarios {
         this.Contrasena = Contrasena;
         this.Curso = Curso;
         this.Genero = Genero;
+        this.ContrasenaR = ContrasenaR;
     }
     
     public Usuarios(String Cedula, String Contrasena) {
@@ -123,5 +138,6 @@ public class Usuarios {
     private String Contrasena;
     private String Curso;
     private String Genero;
+    private String ContrasenaR;
     
 }

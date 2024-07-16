@@ -1,10 +1,14 @@
 
 package ReAdventure.Swing.panels;
 
+import ReAdventure.BaseD.Service_BD;
+import ReAdventure.BaseD.Usuarios_Update;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -15,15 +19,24 @@ import java.awt.event.MouseAdapter;
  */
 public class PanelForgetPassword extends javax.swing.JPanel {
 
-
-    public PanelForgetPassword() {
+    /**
+     * @return the Usuario_UP
+     */
+    public Usuarios_Update getUsuario_UP() {
+        return Usuario_UP;
+    }
+    
+    private Usuarios_Update Usuario_UP;
+    
+    public PanelForgetPassword(ActionListener eventUpdatePass) {
         initComponents();
         setOpaque(false);
         setFocusCycleRoot(true);
         super.setVisible(false);
-
+        Verificar_0.addActionListener(eventUpdatePass);
         addMouseListener(new MouseAdapter(){  
         });
+        
     }
 
     @Override
@@ -47,6 +60,18 @@ public class PanelForgetPassword extends javax.swing.JPanel {
             Cedula.grabFocus();
             Cedula.setText("");
         }
+        Verificar_0.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cedula = Cedula.getText();
+            String nuevaContrasena = Contrasena.getText();
+            String verf_contrasena = new String(Verf_contrasena.getPassword());
+    
+            Usuario_UP = new Usuarios_Update(cedula, nuevaContrasena, verf_contrasena);
+     
+        }
+        });
+         
     }
     
     private void CedulaKeyTyped(java.awt.event.KeyEvent evt){
@@ -74,6 +99,10 @@ public class PanelForgetPassword extends javax.swing.JPanel {
         Cedula = new ReAdventure.Swing.controls.MyTextField();
         Cancelar_0 = new ReAdventure.Swing.controls.ButtonOutLine();
         Verificar_0 = new ReAdventure.Swing.controls.ButtonOutLine();
+        Contrasena = new ReAdventure.Swing.controls.MyTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        Verf_contrasena = new ReAdventure.Swing.controls.MyPasswordField();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -100,11 +129,16 @@ public class PanelForgetPassword extends javax.swing.JPanel {
         Verificar_0.setBackground(new java.awt.Color(72, 213, 51));
         Verificar_0.setForeground(new java.awt.Color(0, 0, 0));
         Verificar_0.setText("Verificar");
-        Verificar_0.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Verificar_0ActionPerformed(evt);
-            }
-        });
+
+        jLabel3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(63, 63, 63));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Ingrese una nueva contraseña");
+
+        jLabel4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(63, 63, 63));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Repita la contraseña");
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -112,29 +146,47 @@ public class PanelForgetPassword extends javax.swing.JPanel {
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Cedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addComponent(Verificar_0, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(Cancelar_0, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(100, 100, 100))
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelRound1Layout.createSequentialGroup()
+                                .addComponent(Verificar_0, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(Cancelar_0, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Cedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)))
+                        .addGap(100, 100, 100))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(Contrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Verf_contrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel3)
+                .addGap(20, 20, 20)
+                .addComponent(Contrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel4)
+                .addGap(20, 20, 20)
+                .addComponent(Verf_contrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Cancelar_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Verificar_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Verificar_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Cancelar_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -149,9 +201,9 @@ public class PanelForgetPassword extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(50, Short.MAX_VALUE)
-                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -162,19 +214,23 @@ public class PanelForgetPassword extends javax.swing.JPanel {
 
     private void Cancelar_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cancelar_0ActionPerformed
         setVisible(false);
+        Cedula.setText("");
+        Contrasena.setText("");
+        Verf_contrasena.setText("");
     }//GEN-LAST:event_Cancelar_0ActionPerformed
-
-    private void Verificar_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Verificar_0ActionPerformed
-        // funcion de validar la cedula
-        // funcion para comprobar la cedula en la base de datos
-        
-    }//GEN-LAST:event_Verificar_0ActionPerformed
 
     private void VerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOutLine2ActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_buttonOutLine2ActionPerformed
-
+    
+    
+    public void close_updatePass(){
+        setVisible(false);
+        Cedula.setText("");
+        Contrasena.setText("");
+        Verf_contrasena.setText("");
+    }
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -184,14 +240,21 @@ public class PanelForgetPassword extends javax.swing.JPanel {
         g2.setComposite(AlphaComposite.SrcOver);
         super.paintComponent(g);
     }
-
     
+    
+   
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private ReAdventure.Swing.controls.ButtonOutLine Cancelar_0;
     private ReAdventure.Swing.controls.MyTextField Cedula;
+    private ReAdventure.Swing.controls.MyTextField Contrasena;
+    private ReAdventure.Swing.controls.MyPasswordField Verf_contrasena;
     private ReAdventure.Swing.controls.ButtonOutLine Verificar_0;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private ReAdventure.Swing.controls.PanelRound panelRound1;
     // End of variables declaration//GEN-END:variables
 }
